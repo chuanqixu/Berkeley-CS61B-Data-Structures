@@ -11,6 +11,14 @@ public class ArrayDeque<T> {
         items = (T[]) new Object[8];
     }
 
+    public ArrayDeque(ArrayDeque other) {
+        items = (T[]) new Object[other.size];
+        nextFirst = other.nextFirst;
+        nextLast = other.nextLast;
+        size = other.size;
+        System.arraycopy(other.items, 0, items, 0, other.size);
+    }
+
     private void resize(int capacity) {
         if (capacity >= size) {
             T[] previousItems = items;
