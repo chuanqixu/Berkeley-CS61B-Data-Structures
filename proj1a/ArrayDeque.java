@@ -11,23 +11,17 @@ public class ArrayDeque<T> {
         items = (T[]) new Object[8];
     }
 
-    public ArrayDeque(ArrayDeque other) {
-        items = (T[]) new Object[other.size];
-        nextFirst = other.nextFirst;
-        nextLast = other.nextLast;
-        size = other.size;
-        System.arraycopy(other.items, 0, items, 0, other.size);
-    }
-
     private void resize(int capacity) {
-        T[] previousItems = items;
-        items = (T[]) new Object[capacity];
-        for (int i = 0; i < size; i++) {
-            nextFirst = (nextFirst + 1) % previousItems.length;
-            items[i] = previousItems[nextFirst];
+        if (capacity >= size) {
+            T[] previousItems = items;
+            items = (T[]) new Object[capacity];
+            for (int i = 0; i < size; i++) {
+                nextFirst = (nextFirst + 1) % previousItems.length;
+                items[i] = previousItems[nextFirst];
+            }
+            nextFirst = capacity - 1;
+            nextLast = size;
         }
-        nextFirst = capacity - 1;
-        nextLast = size;
     }
 
     public void addFirst(T item) {
@@ -66,8 +60,10 @@ public class ArrayDeque<T> {
     }
 
     public T removeFirst() {
-        assert isEmpty();
-        if (size - 1 < items.length / 4) {
+        if (isEmpty()) {
+            return null;
+        }
+        if (size - 1 < items.length / 4 && size >= 16) {
             resize(items.length / 2);
         }
         T temp = items[(nextFirst + 1) % items.length];
@@ -77,7 +73,9 @@ public class ArrayDeque<T> {
     }
 
     public T removeLast() {
-        assert isEmpty();
+        if (isEmpty()) {
+            return null;
+        }
         if (size - 1 < items.length / 4) {
             resize(items.length / 2);
         }
@@ -88,7 +86,9 @@ public class ArrayDeque<T> {
     }
 
     public T get(int index) {
-        assert index < size;
+        if (index >= size) {
+            return null;
+        }
         return items[(index + nextFirst + 1) % items.length];
     }
 }
