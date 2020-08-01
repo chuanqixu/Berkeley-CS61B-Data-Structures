@@ -29,7 +29,7 @@ public class ArrayDeque<T> {
             resize(items.length * 2);
         }
         items[nextFirst] = item;
-        nextFirst = (nextFirst - 1) % items.length;
+        nextFirst = (nextFirst + items.length - 1) % items.length;
         size++;
     }
 
@@ -52,7 +52,7 @@ public class ArrayDeque<T> {
 
     public void printDeque() {
         for (int i = (nextFirst + 1) % items.length;
-             (i - nextFirst - 1) % items.length < size;
+             (i - nextFirst + items.length - 1) % items.length < size;
              i = (i + 1) % items.length) {
             System.out.print(items[i] + " ");
         }
@@ -79,8 +79,8 @@ public class ArrayDeque<T> {
         if (size - 1 < items.length / 4) {
             resize(items.length / 2);
         }
-        T temp = items[(nextLast - 1) % items.length];
-        items[(nextLast - 1) % items.length] = null;
+        T temp = items[(nextLast + items.length - 1) % items.length];
+        items[(nextLast + items.length - 1) % items.length] = null;
         size--;
         return temp;
     }
