@@ -1,7 +1,5 @@
 package es.datastructur.synthesizer;
 
-import edu.princeton.cs.algs4.StdRandom;
-
 //Note: This file will not compile until you complete task 1 (BoundedQueue).
 public class GuitarString {
     /**
@@ -42,7 +40,6 @@ public class GuitarString {
 
     /* Return the double at the front of the buffer. */
     public double sample() {
-        // TODO: Return the correct thing.
         return buffer.peek();
     }
 }
